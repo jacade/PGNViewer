@@ -1,0 +1,134 @@
+object Form1: TForm1
+  Left = 246
+  Height = 717
+  Top = 56
+  Width = 933
+  Caption = 'PGNViewer'
+  ClientHeight = 697
+  ClientWidth = 933
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.6.4.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 497
+    Top = 0
+    Width = 611
+    Align = alClient
+    Caption = 'Panel1'
+    ClientHeight = 497
+    ClientWidth = 611
+    TabOrder = 0
+    object Board1: TBoard
+      Left = 1
+      Height = 495
+      Top = 1
+      Width = 609
+      Align = alClient
+      Border.Font.Color = clBlack
+      Border.Font.Style = [fsBold]
+      Border.Style = [bsBottom, bsLeft, bsRight, bsTop]
+      OnMovePlayed = Board1MovePlayed
+    end
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 200
+    Top = 497
+    Width = 933
+    Align = alBottom
+    TabOrder = 1
+  end
+  object Panel2: TPanel
+    Left = 611
+    Height = 497
+    Top = 0
+    Width = 322
+    Align = alRight
+    Caption = 'Panel2'
+    ClientHeight = 497
+    ClientWidth = 322
+    TabOrder = 2
+    object NotationMemo1: TNotationMemo
+      Left = 1
+      Height = 359
+      Top = 1
+      Width = 320
+      Align = alClient
+      HideSelection = False
+      TabOrder = 0
+      ZoomFactor = 1
+    end
+    object EngineView1: TEngineView
+      Left = 1
+      Height = 136
+      Top = 360
+      Width = 320
+      Align = alBottom
+      Columns = <      
+        item
+          AutoSize = True
+          Caption = 'Depth'
+          MinWidth = 50
+          Width = 54
+        end      
+        item
+          AutoSize = True
+          Caption = 'Score'
+          MinWidth = 50
+        end      
+        item
+          AutoSize = True
+          Caption = 'Time'
+          MinWidth = 50
+        end      
+        item
+          AutoSize = True
+          Caption = 'Nodes'
+          MinWidth = 50
+          Width = 54
+        end      
+        item
+          AutoSize = True
+          Caption = 'Variation'
+          MinWidth = 50
+          Width = 97
+        end>
+      TabOrder = 1
+      ViewStyle = vsReport
+    end
+  end
+  object MainMenu1: TMainMenu
+    left = 60
+    top = 601
+    object miFile: TMenuItem
+      Caption = 'Datei'
+      object miFileNew: TMenuItem
+        Caption = '&Neu'
+      end
+      object miFileOpen: TMenuItem
+        Action = FileOpen1
+      end
+      object miFileExit: TMenuItem
+        Action = FileExit1
+      end
+    end
+  end
+  object ActionList1: TActionList
+    left = 144
+    top = 601
+    object FileOpen1: TFileOpen
+      Category = 'File'
+      Caption = 'Öffnen'
+      Dialog.Filter = 'Portable Game Notation(*.pgn)|*.pgn'
+      Hint = 'Öffnen'
+      ShortCut = 16463
+    end
+    object FileExit1: TFileExit
+      Category = 'File'
+      Caption = '&Beenden'
+      Hint = 'Beenden'
+    end
+  end
+end
