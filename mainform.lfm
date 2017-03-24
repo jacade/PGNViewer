@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 246
+  Left = 237
   Height = 717
-  Top = 56
-  Width = 933
+  Top = 121
+  Width = 899
   Caption = 'PGNViewer'
   ClientHeight = 697
-  ClientWidth = 933
+  ClientWidth = 899
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -14,17 +14,17 @@ object Form1: TForm1
     Left = 0
     Height = 497
     Top = 0
-    Width = 611
+    Width = 496
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 497
-    ClientWidth = 611
+    ClientWidth = 496
     TabOrder = 0
     object Board1: TBoard
       Left = 1
       Height = 495
       Top = 1
-      Width = 609
+      Width = 494
       Align = alClient
       Border.Font.Color = clBlack
       Border.Font.Style = [fsBold]
@@ -36,25 +36,25 @@ object Form1: TForm1
     Left = 0
     Height = 200
     Top = 497
-    Width = 933
+    Width = 899
     Align = alBottom
     TabOrder = 1
   end
   object Panel2: TPanel
-    Left = 611
+    Left = 496
     Height = 497
     Top = 0
-    Width = 322
+    Width = 403
     Align = alRight
     Caption = 'Panel2'
     ClientHeight = 497
-    ClientWidth = 322
+    ClientWidth = 403
     TabOrder = 2
     object NotationMemo1: TNotationMemo
       Left = 1
       Height = 359
       Top = 1
-      Width = 320
+      Width = 401
       Align = alClient
       HideSelection = False
       TabOrder = 0
@@ -64,7 +64,7 @@ object Form1: TForm1
       Left = 1
       Height = 136
       Top = 360
-      Width = 320
+      Width = 401
       Align = alBottom
       Columns = <      
         item
@@ -93,7 +93,7 @@ object Form1: TForm1
           AutoSize = True
           Caption = 'Variation'
           MinWidth = 50
-          Width = 97
+          Width = 178
         end>
       TabOrder = 1
       ViewStyle = vsReport
@@ -112,6 +112,13 @@ object Form1: TForm1
       end
       object miFileExit: TMenuItem
         Action = FileExit1
+      end
+    end
+    object miHelp: TMenuItem
+      Caption = 'Hilfe'
+      object miAbout: TMenuItem
+        Caption = 'Über'
+        OnClick = miAboutClick
       end
     end
   end

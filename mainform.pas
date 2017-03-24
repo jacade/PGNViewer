@@ -23,7 +23,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   ComCtrls, Menus, ActnList, StdActns, Board, NotationMemo, EngineView, PGNGame,
-  Position, Database, PGNdbase, MoveList;
+  Position, Database, PGNdbase, MoveList, AboutForm;
 
 type
 
@@ -36,6 +36,8 @@ type
     FileExit1: TFileExit;
     FileOpen1: TFileOpen;
     MainMenu1: TMainMenu;
+    miAbout: TMenuItem;
+    miHelp: TMenuItem;
     miFile: TMenuItem;
     miFileNew: TMenuItem;
     miFileOpen: TMenuItem;
@@ -47,6 +49,7 @@ type
     procedure Board1MovePlayed(AMove: TMove);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure miAboutClick(Sender: TObject);
   private
     Databases: TDatabaseList;
     BaseIndex, GameIndex: integer;
@@ -91,6 +94,11 @@ end;
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   Databases.Free;
+end;
+
+procedure TForm1.miAboutClick(Sender: TObject);
+begin
+  AboutForm1.ShowModal;
 end;
 
 end.
