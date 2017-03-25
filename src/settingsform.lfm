@@ -1,0 +1,166 @@
+object SettingsForm: TSettingsForm
+  Left = 320
+  Height = 480
+  Top = 289
+  Width = 757
+  Caption = 'SettingsForm'
+  ClientHeight = 480
+  ClientWidth = 757
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  object TreeView1: TTreeView
+    Left = 0
+    Height = 480
+    Top = 0
+    Width = 201
+    Align = alLeft
+    DefaultItemHeight = 16
+    ReadOnly = True
+    TabOrder = 0
+    OnSelectionChanged = TreeView1SelectionChanged
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    Items.Data = {
+      F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      000000050000004272657474
+    }
+  end
+  object Panel1: TPanel
+    Left = 201
+    Height = 480
+    Top = 0
+    Width = 556
+    Align = alClient
+    ClientHeight = 480
+    ClientWidth = 556
+    TabOrder = 1
+    object Panel2: TPanel
+      Left = 1
+      Height = 50
+      Top = 429
+      Width = 554
+      Align = alBottom
+      TabOrder = 0
+    end
+    object PageControl1: TPageControl
+      Left = 1
+      Height = 428
+      Top = 1
+      Width = 554
+      ActivePage = tsBoard
+      Align = alClient
+      ShowTabs = False
+      TabIndex = 0
+      TabOrder = 1
+      object tsBoard: TTabSheet
+        Caption = 'tsBoard'
+        ClientHeight = 424
+        ClientWidth = 544
+        object Board1: TBoard
+          Left = 16
+          Height = 176
+          Top = 32
+          Width = 178
+          Border.Font.Color = clBlack
+          Border.Font.Style = [fsBold]
+          Border.Style = [bsBottom, bsLeft, bsRight, bsTop]
+        end
+        object Label1: TLabel
+          Left = 16
+          Height = 14
+          Top = 10
+          Width = 55
+          Caption = 'Vorschau'
+          ParentColor = False
+        end
+        object cbBlack: TColorButton
+          Left = 216
+          Height = 25
+          Top = 32
+          Width = 75
+          BorderWidth = 2
+          ButtonColorSize = 16
+          ButtonColor = clBlack
+          ColorDialog = ColorDialog1
+          OnColorChanged = cbBlackColorChanged
+        end
+        object Label2: TLabel
+          Left = 216
+          Height = 14
+          Top = 10
+          Width = 41
+          Caption = 'Farben'
+          ParentColor = False
+        end
+        object cbWhite: TColorButton
+          Left = 216
+          Height = 25
+          Top = 64
+          Width = 75
+          BorderWidth = 2
+          ButtonColorSize = 16
+          ButtonColor = clWhite
+          ColorDialog = ColorDialog1
+          OnColorChanged = cbWhiteColorChanged
+        end
+        object CheckGroup1: TCheckGroup
+          Left = 312
+          Height = 79
+          Top = 10
+          Width = 169
+          AutoFill = True
+          Caption = 'Rand'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclTopToBottomThenLeftToRight
+          ChildSizing.ControlsPerLine = 2
+          ClientHeight = 64
+          ClientWidth = 167
+          ColumnLayout = clVerticalThenHorizontal
+          Columns = 2
+          Items.Strings = (
+            'Links'
+            'Rechts'
+            'Oben'
+            'Unten'
+          )
+          OnItemClick = CheckGroup1ItemClick
+          TabOrder = 1
+          Data = {
+            0400000002020202
+          }
+        end
+      end
+    end
+  end
+  object ColorDialog1: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 432
+    top = 104
+  end
+end
