@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 237
+  Left = 236
   Height = 717
-  Top = 121
+  Top = 88
   Width = 899
   Caption = 'PGNViewer'
   ClientHeight = 697
@@ -112,6 +112,13 @@ object Form1: TForm1
       end
       object miFileExit: TMenuItem
         Action = FileExit1
+      end
+    end
+    object miOptions: TMenuItem
+      Caption = 'Optionen'
+      object miSettings: TMenuItem
+        Caption = 'Einstellungen'
+        OnClick = miSettingsClick
       end
     end
     object miHelp: TMenuItem
