@@ -81,7 +81,7 @@ begin
     InitialPosition.SetupInitialPosition;
     CurrentPosition.SetupInitialPosition;
   end;
-  Board1.PieceDirectory := './Pieces';
+  Board1.PieceDirectory := '../Pieces';
   Board1.CurrentPosition := TStandardPosition.Create;
   Board1.CurrentPosition.Copy(Databases.Items[0].Items[0].CurrentPosition);
 end;
