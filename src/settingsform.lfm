@@ -1,9 +1,9 @@
 object SettingsForm: TSettingsForm
-  Left = 320
+  Left = 315
   Height = 480
-  Top = 289
+  Top = 124
   Width = 757
-  Caption = 'SettingsForm'
+  Caption = 'Einstellungen'
   ClientHeight = 480
   ClientWidth = 757
   OnCreate = FormCreate
@@ -57,55 +57,20 @@ object SettingsForm: TSettingsForm
         ClientWidth = 544
         object Board1: TBoard
           Left = 16
-          Height = 176
-          Top = 32
-          Width = 178
+          Height = 144
+          Top = 16
+          Width = 144
+          CountOfFiles = 2
+          CountOfRanks = 2
           Border.Font.Color = clBlack
           Border.Font.Style = [fsBold]
           Border.Style = [bsBottom, bsLeft, bsRight, bsTop]
-        end
-        object Label1: TLabel
-          Left = 16
-          Height = 14
-          Top = 10
-          Width = 55
-          Caption = 'Vorschau'
-          ParentColor = False
-        end
-        object cbBlack: TColorButton
-          Left = 216
-          Height = 25
-          Top = 32
-          Width = 75
-          BorderWidth = 2
-          ButtonColorSize = 16
-          ButtonColor = clBlack
-          ColorDialog = ColorDialog1
-          OnColorChanged = cbBlackColorChanged
-        end
-        object Label2: TLabel
-          Left = 216
-          Height = 14
-          Top = 10
-          Width = 41
-          Caption = 'Farben'
-          ParentColor = False
-        end
-        object cbWhite: TColorButton
-          Left = 216
-          Height = 25
-          Top = 64
-          Width = 75
-          BorderWidth = 2
-          ButtonColorSize = 16
-          ButtonColor = clWhite
-          ColorDialog = ColorDialog1
-          OnColorChanged = cbWhiteColorChanged
+          ViewOnly = True
         end
         object CheckGroup1: TCheckGroup
-          Left = 312
+          Left = 248
           Height = 79
-          Top = 10
+          Top = 184
           Width = 169
           AutoFill = True
           Caption = 'Rand'
@@ -132,6 +97,85 @@ object SettingsForm: TSettingsForm
           Data = {
             0400000002020202
           }
+        end
+        object GroupBox1: TGroupBox
+          Left = 16
+          Height = 161
+          Top = 184
+          Width = 208
+          Caption = 'Farben'
+          ClientHeight = 146
+          ClientWidth = 206
+          TabOrder = 2
+          object cbBlack: TColorButton
+            Left = 128
+            Height = 25
+            Top = 24
+            Width = 75
+            BorderWidth = 2
+            ButtonColorSize = 16
+            ButtonColor = clBlack
+            ColorDialog = ColorDialog1
+            OnColorChanged = cbBlackColorChanged
+          end
+          object cbWhite: TColorButton
+            Left = 128
+            Height = 25
+            Top = 0
+            Width = 75
+            BorderWidth = 2
+            ButtonColorSize = 16
+            ButtonColor = clWhite
+            ColorDialog = ColorDialog1
+            OnColorChanged = cbWhiteColorChanged
+          end
+          object Label1: TLabel
+            Left = 8
+            Height = 14
+            Top = 8
+            Width = 69
+            Caption = 'Helle Felder'
+            ParentColor = False
+          end
+          object Label2: TLabel
+            Left = 8
+            Height = 14
+            Top = 32
+            Width = 82
+            Caption = 'Dunkle Felder'
+            ParentColor = False
+          end
+          object cbBackground: TColorButton
+            Left = 128
+            Height = 25
+            Top = 48
+            Width = 75
+            BorderWidth = 2
+            ButtonColorSize = 16
+            ButtonColor = clWhite
+            ColorDialog = ColorDialog1
+            OnColorChanged = cbBackgroundColorChanged
+          end
+          object Label3: TLabel
+            Left = 8
+            Height = 14
+            Top = 56
+            Width = 105
+            Caption = 'Hintergrundfarbe'
+            ParentColor = False
+          end
+        end
+        object Board2: TBoard
+          Left = 192
+          Height = 106
+          Top = 16
+          Width = 318
+          CountOfFiles = 6
+          CountOfRanks = 2
+          Border.Font.Color = clBlack
+          Border.Font.Style = [fsBold]
+          Border.Style = []
+          ViewOnly = True
         end
       end
     end
@@ -160,7 +204,7 @@ object SettingsForm: TSettingsForm
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 432
-    top = 104
+    left = 344
+    top = 352
   end
 end

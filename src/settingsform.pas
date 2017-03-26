@@ -30,17 +30,22 @@ type
 
   TSettingsForm = class(TForm)
     Board1: TBoard;
+    Board2: TBoard;
     cbBlack: TColorButton;
     cbWhite: TColorButton;
     CheckGroup1: TCheckGroup;
+    cbBackground: TColorButton;
     ColorDialog1: TColorDialog;
+    GroupBox1: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
+    Label3: TLabel;
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
     tsBoard: TTabSheet;
     TreeView1: TTreeView;
+    procedure cbBackgroundColorChanged(Sender: TObject);
     procedure cbBlackColorChanged(Sender: TObject);
     procedure cbWhiteColorChanged(Sender: TObject);
     procedure CheckGroup1ItemClick(Sender: TObject; Index: integer);
@@ -69,11 +74,18 @@ end;
 procedure TSettingsForm.cbBlackColorChanged(Sender: TObject);
 begin
   Board1.BlackSquareColor := cbBlack.ButtonColor;
+  Board2.BlackSquareColor := cbBlack.ButtonColor;
+end;
+
+procedure TSettingsForm.cbBackgroundColorChanged(Sender: TObject);
+begin
+  Board1.Border.Background := cbBackground.ButtonColor;
 end;
 
 procedure TSettingsForm.cbWhiteColorChanged(Sender: TObject);
 begin
   Board1.WhiteSquareColor := cbWhite.ButtonColor;
+  Board2.WhiteSquareColor := cbWhite.ButtonColor;
 end;
 
 procedure TSettingsForm.CheckGroup1ItemClick(Sender: TObject; Index: integer);
@@ -89,7 +101,9 @@ var
   i: integer;
 begin
   Board1.PieceDirectory := '../Pieces';
-  Board1.CurrentPosition := TPreviewPosition.Create;
+  Board1.CurrentPosition := TPreviewPosition2x2.Create;
+  Board2.PieceDirectory := '../Pieces';
+  Board2.CurrentPosition := TPreviewPosition2x6.Create;
   TreeView1.Selected := TreeView1.Items[0];
   for i := 0 to 3 do
     CheckGroup1.Checked[i] := True;
