@@ -69,7 +69,9 @@ type
     procedure NotationMemo1ClickMove(Sender: TObject; AMove: TMove);
     procedure NotationMemo1Enter(Sender: TObject);
     procedure NotationMemo1SelectionChange(Sender: TObject);
-    procedure VisualUCIEngine1Info(Sender: TObject; Info: TInfo);
+    procedure VisualUCIEngine1BestMove(Sender: TObject; BestMove, Ponder: TMove
+      );
+    procedure VisualUCIEngine1Info(Sender: TObject; Info: TInfo; InfoMask: TInfoMask);
   private
     Databases: TDatabaseList;
     BaseIndex, GameIndex: integer;
@@ -182,14 +184,32 @@ begin
   else
     AMove.Free;
   Board1.CurrentPosition.Copy(CurrentGame.CurrentPosition);
+  Board1.Invalidate;
   NotationMemo1.SetTextFromGame(CurrentGame);
   NotationMemo1.HighlightMove(CurrentGame.CurrentPlyNode.Data.Move);
+  // Let the Engine play
+  if not CurrentGame.CurrentPosition.WhitesTurn then
+  begin
+    VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
+    VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 20, 0, 0, 0, False);
+  end;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-  VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
-  VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 0, 0, 0, 0, True);
+  if button1.Tag = 0 then
+  begin
+    VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
+    VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 0, 0, 0, 0, True);
+    Button1.Caption := 'Stop';
+    Button1.Tag := 1;
+  end
+  else
+  begin
+    VisualUCIEngine1.Stop;
+    Button1.Caption := 'Start';
+    Button1.Tag := 0;
+  end;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -228,18 +248,40 @@ begin
     NotationMemo1.SelLength := 0;
 end;
 
-procedure TForm1.VisualUCIEngine1Info(Sender: TObject; Info: TInfo);
+procedure TForm1.VisualUCIEngine1BestMove(Sender: TObject; BestMove,
+  Ponder: TMove);
 begin
-  Label1.Caption := FloatToStr(Info.Score.CP / 100) + ' Tiefe:';
+  Board1MovePlayed(BestMove);
+  if Assigned(Ponder) then
+    Ponder.Free;
+end;
+
+procedure TForm1.VisualUCIEngine1Info(Sender: TObject; Info: TInfo; InfoMask: TInfoMask);
+begin
+  if imCP in InfoMask then
+    Label1.Caption := FloatToStr(Info.Score.CP / 100) + ' Tiefe:';
   Label2.Left := Label1.Left + label1.Width + 10;
-  Label2.Caption := IntToStr(Info.Depth);
+  if imDepth in InfoMask then
+    Label2.Caption := IntToStr(Info.Depth);
   Label3.Left := Label2.Left + Label2.Width + 10;
   Label4.Left := label3.Left + Label3.Width + 10;
-  Label4.Caption := IntToStr(Info.Nodes div 1000) + 'k (' +
-    IntToStr(Info.NPS div 1000) + 'kn/s)';
+  if imNodes in InfoMask then
+    Label4.Caption := IntToStr(Info.Nodes div 1000) + 'k (' +
+      IntToStr(Info.NPS div 1000) + 'kn/s)';
   Label5.Left := Label4.Left + Label4.Width + 10;
   Label6.Left := Label5.Left + Label5.Width + 10;
-  Label6.Caption := FloatToStr(Info.Time / 1000) + 's';
+  if imTime in InfoMask then
+    Label6.Caption := FloatToStr(Info.Time / 1000) + 's';
+  if imCurrLine in InfoMask then
+  begin
+    Info.CurrLine.Free;
+  end;
+  if imPV in InfoMask then
+  begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.AddStrings(Info.PV);
+    Info.PV.Free;
+  end;
 end;
 
 end.

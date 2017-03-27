@@ -1,5 +1,5 @@
 object Form1: TForm1
-  Left = 230
+  Left = 229
   Height = 717
   Top = 0
   Width = 899
@@ -216,6 +216,7 @@ object Form1: TForm1
     end
   end
   object VisualUCIEngine1: TVisualUCIEngine
+    OnBestMove = VisualUCIEngine1BestMove
     OnInfo = VisualUCIEngine1Info
     left = 240
     top = 601
