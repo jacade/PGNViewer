@@ -21,10 +21,10 @@ unit mainform;
 interface
 
 uses
-  Classes, SysUtils, gvector, FileUtil, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, ComCtrls, Menus, ActnList, StdActns, Board, NotationMemo,
-  EngineView, PGNGame, Position, Database, PGNdbase, MoveList, AboutForm,
-  SettingsForm, Game;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  ExtCtrls, ComCtrls, Menus, ActnList, StdActns, StdCtrls, Board, NotationMemo,
+  VisualUCIEngine, PGNGame, Position, Database, PGNdbase, MoveList, AboutForm,
+  SettingsForm, Game, UCI;
 
 type
 
@@ -33,10 +33,17 @@ type
   TForm1 = class(TForm)
     ActionList1: TActionList;
     Board1: TBoard;
-    EngineView1: TEngineView;
+    Button1: TButton;
     FileExit1: TFileExit;
     FileOpen1: TFileOpen;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
     MainMenu1: TMainMenu;
+    Memo1: TMemo;
     miOptions: TMenuItem;
     miSettings: TMenuItem;
     miAbout: TMenuItem;
@@ -49,7 +56,12 @@ type
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    VisualUCIEngine1: TVisualUCIEngine;
     procedure Board1MovePlayed(AMove: TMove);
+    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
@@ -57,6 +69,7 @@ type
     procedure NotationMemo1ClickMove(Sender: TObject; AMove: TMove);
     procedure NotationMemo1Enter(Sender: TObject);
     procedure NotationMemo1SelectionChange(Sender: TObject);
+    procedure VisualUCIEngine1Info(Sender: TObject; Info: TInfo);
   private
     Databases: TDatabaseList;
     BaseIndex, GameIndex: integer;
@@ -124,6 +137,9 @@ begin
     ShowEnPassantSuffix := False;
     ShowPawnLetter := False;
   end;
+  VisualUCIEngine1.ProcessName := '/usr/local/bin/stockfish';
+  VisualUCIEngine1.Init;
+  VisualUCIEngine1.NewGame;
 end;
 
 procedure TForm1.Board1MovePlayed(AMove: TMove);
@@ -150,8 +166,8 @@ begin
       end;
       case QuestionDlg('Hier existiert schon ein Zug',
           'An dieser Stelle existiert bereits ein Zug. Was soll getan werden?',
-          mtInformation, [30, 'Zug ersetzen', 31, 'Neue Variante', 32,
-          'Neue Hauptvariante', 33, 'Abbrechen'], '') of
+          mtInformation, [30, 'Zug ersetzen', 31, 'Neue Variante',
+          32, 'Neue Hauptvariante', 33, 'Abbrechen'], '') of
         30: CurrentGame.ReplaceMainLine(AMove);
         31: CurrentGame.AddMoveAsSideLine(AMove);
         32: CurrentGame.AddMoveAsNewMainLine(AMove);
@@ -168,6 +184,12 @@ begin
   Board1.CurrentPosition.Copy(CurrentGame.CurrentPosition);
   NotationMemo1.SetTextFromGame(CurrentGame);
   NotationMemo1.HighlightMove(CurrentGame.CurrentPlyNode.Data.Move);
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
+  VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 0, 0, 0, 0, True);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -204,6 +226,20 @@ begin
   // Don't allow any selection
   if NotationMemo1.SelLength > 0 then
     NotationMemo1.SelLength := 0;
+end;
+
+procedure TForm1.VisualUCIEngine1Info(Sender: TObject; Info: TInfo);
+begin
+  Label1.Caption := FloatToStr(Info.Score.CP / 100) + ' Tiefe:';
+  Label2.Left := Label1.Left + label1.Width + 10;
+  Label2.Caption := IntToStr(Info.Depth);
+  Label3.Left := Label2.Left + Label2.Width + 10;
+  Label4.Left := label3.Left + Label3.Width + 10;
+  Label4.Caption := IntToStr(Info.Nodes div 1000) + 'k (' +
+    IntToStr(Info.NPS div 1000) + 'kn/s)';
+  Label5.Left := Label4.Left + Label4.Width + 10;
+  Label6.Left := Label5.Left + Label5.Width + 10;
+  Label6.Caption := FloatToStr(Info.Time / 1000) + 's';
 end;
 
 end.
