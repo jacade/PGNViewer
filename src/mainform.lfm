@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 235
+  Left = 234
   Height = 717
-  Top = 55
+  Top = 22
   Width = 899
   Caption = 'PGNViewer'
   ClientHeight = 697
@@ -26,10 +26,14 @@ object Form1: TForm1
       Top = 1
       Width = 494
       Align = alClient
+      BlackSquareColor = 2516658
+      CountOfFiles = 8
+      CountOfRanks = 8
       Border.Font.Color = clBlack
       Border.Font.Style = [fsBold]
       Border.Style = [bsBottom, bsLeft, bsRight, bsTop]
       OnMovePlayed = Board1MovePlayed
+      WhiteSquareColor = 14347251
     end
   end
   object PageControl1: TPageControl
@@ -57,6 +61,9 @@ object Form1: TForm1
       Width = 401
       Align = alClient
       HideSelection = False
+      OnClickMove = NotationMemo1ClickMove
+      OnEnter = NotationMemo1Enter
+      OnSelectionChange = NotationMemo1SelectionChange
       TabOrder = 0
       ZoomFactor = 1
     end
