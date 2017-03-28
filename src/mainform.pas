@@ -69,8 +69,7 @@ type
     procedure NotationMemo1ClickMove(Sender: TObject; AMove: TMove);
     procedure NotationMemo1Enter(Sender: TObject);
     procedure NotationMemo1SelectionChange(Sender: TObject);
-    procedure VisualUCIEngine1BestMove(Sender: TObject; BestMove, Ponder: TMove
-      );
+    procedure VisualUCIEngine1BestMove(Sender: TObject; BestMove, Ponder: TMove);
     procedure VisualUCIEngine1Info(Sender: TObject; Info: TInfo; InfoMask: TInfoMask);
   private
     Databases: TDatabaseList;
@@ -148,7 +147,7 @@ procedure TForm1.Board1MovePlayed(AMove: TMove);
 var
   i: integer;
 begin
-  if Databases.Items[BaseIndex].Items[GameIndex].CurrentPosition.ValidateMove(AMove) then
+  if CurrentGame.CurrentPosition.ValidateMove(AMove) then
   begin
     if CurrentGame.CurrentPlyNode.Children.Size = 0 then
     begin
@@ -180,19 +179,19 @@ begin
         end;
       end;
     end;
+    Board1.CurrentPosition.Copy(CurrentGame.CurrentPosition);
+    Board1.Invalidate;
+    NotationMemo1.SetTextFromGame(CurrentGame);
+    NotationMemo1.HighlightMove(CurrentGame.CurrentPlyNode.Data.Move);
+    // Let the Engine play
+    if not CurrentGame.CurrentPosition.WhitesTurn then
+    begin
+      VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
+      VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 20, 0, 0, 0, False);
+    end;
   end
   else
     AMove.Free;
-  Board1.CurrentPosition.Copy(CurrentGame.CurrentPosition);
-  Board1.Invalidate;
-  NotationMemo1.SetTextFromGame(CurrentGame);
-  NotationMemo1.HighlightMove(CurrentGame.CurrentPlyNode.Data.Move);
-  // Let the Engine play
-  if not CurrentGame.CurrentPosition.WhitesTurn then
-  begin
-    VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
-    VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 20, 0, 0, 0, False);
-  end;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -248,8 +247,7 @@ begin
     NotationMemo1.SelLength := 0;
 end;
 
-procedure TForm1.VisualUCIEngine1BestMove(Sender: TObject; BestMove,
-  Ponder: TMove);
+procedure TForm1.VisualUCIEngine1BestMove(Sender: TObject; BestMove, Ponder: TMove);
 begin
   Board1MovePlayed(BestMove);
   if Assigned(Ponder) then
@@ -257,6 +255,10 @@ begin
 end;
 
 procedure TForm1.VisualUCIEngine1Info(Sender: TObject; Info: TInfo; InfoMask: TInfoMask);
+var
+  TempPos: TStandardPosition;
+  Move: TMove;
+  s: string;
 begin
   if imCP in InfoMask then
     Label1.Caption := FloatToStr(Info.Score.CP / 100) + ' Tiefe:';
@@ -278,9 +280,22 @@ begin
   end;
   if imPV in InfoMask then
   begin
+    s := '';
     Memo1.Lines.Clear;
-    Memo1.Lines.AddStrings(Info.PV);
+    TempPos := TStandardPosition.Create;
+    TempPos.Copy(CurrentGame.CurrentPosition);
+    if not TempPos.WhitesTurn then
+      s := s + IntToStr(TempPos.MoveNumber) + '...';
+    for Move in Info.PV do
+    begin
+      if TempPos.WhitesTurn then
+        s := s + IntToStr(TempPos.MoveNumber) + '.';
+      s := s + TempPos.MoveToStr(Move, NotationMemo1.MoveToStrOptions) + ' ';
+      TempPos.PlayMove(Move);
+    end;
+    Memo1.Lines.Add(s);
     Info.PV.Free;
+    TempPos.Free;
   end;
 end;
 
