@@ -1,5 +1,5 @@
 object Form1: TForm1
-  Left = 228
+  Left = 227
   Height = 717
   Top = 0
   Width = 899
@@ -29,6 +29,7 @@ object Form1: TForm1
       BlackSquareColor = 2516658
       CountOfFiles = 8
       CountOfRanks = 8
+      Border.Background = 4964586
       Border.Font.Color = clBlack
       Border.Font.Style = [fsBold]
       Border.Style = [bsBottom, bsLeft, bsRight, bsTop]

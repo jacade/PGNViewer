@@ -24,7 +24,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, ComCtrls, Menus, ActnList, StdActns, StdCtrls, Board, NotationMemo,
   VisualUCIEngine, PGNGame, Position, Database, PGNdbase, MoveList, AboutForm,
-  SettingsForm, Game, UCI;
+  SettingsForm, Game, UCI, mSettings;
 
 type
 
@@ -75,6 +75,8 @@ type
     Databases: TDatabaseList;
     BaseIndex, GameIndex: integer;
     CurrentGame: TGame;
+    MainSettings: TSettings;
+    procedure ApplySettings;
   public
     { public declarations }
   end;
@@ -90,6 +92,8 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  MainSettings := TSettings.Create('Test.ini');
+  ApplySettings;
   BaseIndex := 0;
   GameIndex := 0;
   Databases := TDatabaseList.Create;
@@ -195,13 +199,17 @@ begin
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
+var
+  Temp: TMoveList;
 begin
-  if button1.Tag = 0 then
+  if Button1.Tag = 0 then
   begin
-    VisualUCIEngine1.SetUpPosition(TStandardPosition(Board1.CurrentPosition).ToFEN);
+    Temp := CurrentGame.GetMovesToCurrentPosition;
+    VisualUCIEngine1.SetUpPosition('startpos', Temp);
     VisualUCIEngine1.Go(nil, False, 0, 0, 0, 0, -1, 0, 0, 0, 0, True);
     Button1.Caption := 'Stop';
     Button1.Tag := 1;
+    Temp.Free;
   end
   else
   begin
@@ -214,6 +222,7 @@ end;
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   Databases.Free;
+  MainSettings.Free;
 end;
 
 procedure TForm1.miAboutClick(Sender: TObject);
@@ -223,7 +232,11 @@ end;
 
 procedure TForm1.miSettingsClick(Sender: TObject);
 begin
+  SettingsForm1.Settings := MainSettings;
+  SettingsForm1.SaveFile := 'Test.ini';
   SettingsForm1.ShowModal;
+  if SettingsForm1.ModalResult = mrOk then
+    ApplySettings;
 end;
 
 procedure TForm1.NotationMemo1ClickMove(Sender: TObject; AMove: TMove);
@@ -297,6 +310,30 @@ begin
     Info.PV.Free;
     TempPos.Free;
   end;
+end;
+
+procedure TForm1.ApplySettings;
+begin
+  Board1.BlackSquareColor := MainSettings.BoardSettings.BlackSquareColor;
+  Board1.WhiteSquareColor := MainSettings.BoardSettings.WhiteSquareColor;
+  Board1.Border.Background := MainSettings.BoardSettings.BackgroundColor;
+  if MainSettings.BoardSettings.ShowBorderBottom then
+    Board1.Border.Style := Board1.Border.Style + [bsBottom]
+  else
+    Board1.Border.Style := Board1.Border.Style - [bsBottom];
+  if MainSettings.BoardSettings.ShowBorderLeft then
+    Board1.Border.Style := Board1.Border.Style + [bsLeft]
+  else
+    Board1.Border.Style := Board1.Border.Style - [bsLeft];
+  if MainSettings.BoardSettings.ShowBorderRight then
+    Board1.Border.Style := Board1.Border.Style + [bsRight]
+  else
+    Board1.Border.Style := Board1.Border.Style - [bsRight];
+  if MainSettings.BoardSettings.ShowBorderTop then
+    Board1.Border.Style := Board1.Border.Style + [bsTop]
+  else
+    Board1.Border.Style := Board1.Border.Style - [bsTop];
+  ;
 end;
 
 end.
