@@ -103,7 +103,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="pgnviewer.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -135,6 +135,11 @@
         <Filename Value="previewposition.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="msettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="mSettings"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
