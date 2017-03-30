@@ -1,12 +1,14 @@
 object SettingsForm: TSettingsForm
-  Left = 315
+  Left = 314
   Height = 480
-  Top = 124
+  Top = 91
   Width = 757
   Caption = 'Einstellungen'
   ClientHeight = 480
   ClientWidth = 757
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
   LCLVersion = '1.6.4.0'
   object TreeView1: TTreeView
     Left = 0
@@ -16,12 +18,14 @@ object SettingsForm: TSettingsForm
     Align = alLeft
     DefaultItemHeight = 16
     ReadOnly = True
+    ShowLines = False
     TabOrder = 0
     OnSelectionChanged = TreeView1SelectionChanged
-    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     Items.Data = {
-      F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      000000050000004272657474
+      F9FFFFFF020002000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+      000000050000004272657474FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000
+      000000000007000000456E67696E6573
     }
   end
   object Panel1: TPanel
@@ -39,17 +43,29 @@ object SettingsForm: TSettingsForm
       Top = 429
       Width = 554
       Align = alBottom
+      ClientHeight = 50
+      ClientWidth = 554
       TabOrder = 0
+      object bApply: TButton
+        Left = 352
+        Height = 25
+        Top = 8
+        Width = 96
+        Caption = 'Übernehmen'
+        ModalResult = 1
+        OnClick = bApplyClick
+        TabOrder = 0
+      end
     end
     object PageControl1: TPageControl
       Left = 1
       Height = 428
       Top = 1
       Width = 554
-      ActivePage = tsBoard
+      ActivePage = tsEngines
       Align = alClient
       ShowTabs = False
-      TabIndex = 0
+      TabIndex = 1
       TabOrder = 1
       object tsBoard: TTabSheet
         Caption = 'tsBoard'
@@ -178,6 +194,88 @@ object SettingsForm: TSettingsForm
           ViewOnly = True
         end
       end
+      object tsEngines: TTabSheet
+        Caption = 'tsEngines'
+        ClientHeight = 424
+        ClientWidth = 544
+        object lEngines: TLabel
+          Left = 16
+          Height = 14
+          Top = 8
+          Width = 48
+          Caption = 'Engines'
+          ParentColor = False
+        end
+        object btNewEngine: TButton
+          Left = 16
+          Height = 25
+          Top = 392
+          Width = 96
+          Caption = 'Neu...'
+          OnClick = btNewEngineClick
+          TabOrder = 0
+        end
+        object btEditEngine: TButton
+          Left = 128
+          Height = 25
+          Top = 392
+          Width = 96
+          Caption = 'Bearbeiten...'
+          TabOrder = 1
+        end
+        object btDeleteEngine: TButton
+          Left = 240
+          Height = 25
+          Top = 392
+          Width = 96
+          Caption = 'Löschen'
+          TabOrder = 2
+        end
+        object lvEngines: TListView
+          Left = 16
+          Height = 352
+          Top = 32
+          Width = 520
+          Columns = <          
+            item
+              AutoSize = True
+              Caption = 'Name'
+              MinWidth = 100
+              Width = 100
+            end          
+            item
+              AutoSize = True
+              Caption = 'Standard'
+              MinWidth = 100
+              Width = 100
+            end          
+            item
+              AutoSize = True
+              Caption = 'Hinzugefügt am'
+              MaxWidth = 150
+              MinWidth = 150
+              Width = 150
+            end          
+            item
+              AutoSize = True
+              Caption = 'Autoren'
+              Width = 168
+            end>
+          ReadOnly = True
+          RowSelect = True
+          ScrollBars = ssAutoBoth
+          TabOrder = 3
+          ViewStyle = vsReport
+        end
+        object bStandard: TButton
+          Left = 376
+          Height = 25
+          Top = 392
+          Width = 160
+          Caption = 'Als Standard festlegen'
+          TabOrder = 4
+        end
+      end
     end
   end
   object ColorDialog1: TColorDialog
@@ -204,7 +302,11 @@ object SettingsForm: TSettingsForm
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 344
-    top = 352
+    left = 216
+    top = 432
+  end
+  object OpenDialog1: TOpenDialog
+    left = 296
+    top = 432
   end
 end
